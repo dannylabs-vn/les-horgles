@@ -1,3 +1,4 @@
+import pandas
 import pygame
 import sys
 from Dialog import DialogBox
