@@ -1,6 +1,9 @@
 import pygame
 import os
 import csv
+from scenes.Dialog import DialogBox
+import time
+
 
 class TilemapRenderer:
     def __init__(self, tileset_path, tilemap_path, tile_size=32):
@@ -11,6 +14,11 @@ class TilemapRenderer:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Cupboard Game")
         
+        # Initialize dialog
+        self.font = pygame.font.Font('assets/Minecraftia-Regular.ttf', 28)
+        self.dialog = DialogBox(self.screen_width, self.screen_height, self.font)
+        self.dialog.set_text("Il y a quelqu'un, je dois me cacher")
+        time.sleep(2.5)  # Wait for 2 seconds to let the player read the dialog
         # Initialize player position and movement system
         self.required_presses = 3
         
@@ -530,6 +538,25 @@ class TilemapRenderer:
         last_key = None
         key_press_count = 0
         
+        # Show initial dialog
+        showing_dialog = True
+        while showing_dialog:
+            dt = clock.tick(60) / 1000.0
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    showing_dialog = False
+            
+            # Draw and update dialog
+            self.screen.fill((0, 0, 0))  # Black background
+            self.dialog.update(dt)
+            self.dialog.draw(self.screen)
+            pygame.display.flip()
+        
+        # Start the game timer after dialog
+        self.start_time = pygame.time.get_ticks()
+        
         while running:
             # Cập nhật thời gian
             current_time = pygame.time.get_ticks()
@@ -584,6 +611,7 @@ class TilemapRenderer:
         pygame.quit()
 
 if __name__ == "__main__":
+    
     print(f"Current working directory: {os.getcwd()}")
     
     tileset_path = os.path.join("assets", "cupboard_tiles.png")
