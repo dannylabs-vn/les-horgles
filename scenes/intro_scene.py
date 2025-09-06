@@ -1,5 +1,5 @@
 import pygame
-import sys
+# import sys
 from scenes.Dialog import DialogBox
 
 class IntroScene:
