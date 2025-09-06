@@ -339,6 +339,8 @@ class TilemapRenderer:
             return self.tilemap[y][x]
         return -1
 
+    game_is_over = False
+
     def handle_player_movement(self, key):
         """Handle WASD movement"""
         if not self.can_move:
@@ -381,6 +383,7 @@ class TilemapRenderer:
             else:
                 # Hiển thị màn hình WIN
                 self.show_win_screen()
+                self.game_is_over = True
                 pygame.quit()  # Tự động thoát khi thắng
                 return
                 
@@ -566,14 +569,17 @@ class TilemapRenderer:
                                 self.can_move = False
                         
             # Draw everything
-            self.screen.fill((0, 0, 0))
-            self.draw_tilemap()  # This now includes sequential glow effects
-            self.draw_player()
-            self.draw_key_progress(last_key, key_press_count)
-            self.draw_timer()  # Draw the timer bar
-            
-            pygame.display.flip()
-            clock.tick(60)
+            if (not self.game_is_over):
+                self.screen.fill((0, 0, 0))
+                self.draw_tilemap()  # This now includes sequential glow effects
+                self.draw_player()
+                self.draw_key_progress(last_key, key_press_count)
+                self.draw_timer()  # Draw the timer bar
+                
+                pygame.display.flip()
+                clock.tick(60)
+            else:
+                running = False
         
         pygame.quit()
 
