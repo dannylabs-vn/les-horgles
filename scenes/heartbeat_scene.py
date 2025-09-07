@@ -186,7 +186,7 @@ class HeartbeatGame:
 
         # HUD
         hud = self.heart_font.render(
-            f"Round {self.round}/{self.rounds_to_win}   Lives {self.lives}   Speed {int(self.speed)}",
+            f"Round {self.round}/{self.rounds_to_win}   vies {self.lives}   la vitesse {int(self.speed)}",
             True, (240, 240, 240)
         )
         self.screen.blit(hud, (20, 20))
@@ -243,27 +243,27 @@ class HeartbeatGame:
         v_rel = 2.0 * self.speed
         t_to_target = (g - self.target_gap) / v_rel
         if abs(t_to_target) <= self.time_window:
-            self.message = "Perfect!"
+            self.message = "Parfait !"
             self.msg_timer = 0.45
             self.flash_alpha = 120
             self.full_reset_after_success()
         else:
-            self.lose_life_and_maybe_continue("Missed!")
+            self.lose_life_and_maybe_continue("Raté !")
 
     # ========= RESULT SCREENS =========
     def show_success(self):
         self.screen.fill((15, 15, 18))
-        label = self.heart_big_font.render("Success! You stayed hidden!", True, (0, 255, 0))
+        label = self.heart_big_font.render("Succès ! Tu es resté(e) caché(e) !", True, (0, 255, 0))
         self.screen.blit(label, label.get_rect(center=(self.center_x, self.center_y)))
         pygame.display.flip()
         pygame.time.wait(1200)
 
     def show_failure(self):
         self.screen.fill((15, 15, 18))
-        label = self.heart_big_font.render("Caught! Try again!", True, (255, 0, 0))
+        label = self.heart_big_font.render("Attrapé(e) ! Réessaie !", True, (255, 0, 0))
         self.screen.blit(label, label.get_rect(center=(self.center_x, self.center_y)))
         retry_text = self.heart_font.render(
-            "Nhấn SPACE để chơi lại hoặc ESC để thoát", True, (255, 255, 255)
+            "Appuie sur ESPACE pour rejouer ou sur ÉCHAP pour quitter", True, (255, 255, 255)
         )
         self.screen.blit(retry_text, retry_text.get_rect(center=(self.center_x, self.center_y + 100)))
         pygame.display.flip()
@@ -297,10 +297,10 @@ class HeartbeatGame:
                     elif event.key == pygame.K_SPACE:
                         self.handle_space()
             if time.perf_counter() - self.round_start_time >= self.round_timeout:
-                self.lose_life_and_maybe_continue("Too slow!")
+                self.lose_life_and_maybe_continue("Trop lent !")
                 continue
             if self.left_x >= self.right_x:
-                self.lose_life_and_maybe_continue("Missed!")
+                self.lose_life_and_maybe_continue("Raté !")
                 continue
             self.left_x += self.speed * dt
             self.right_x -= self.speed * dt
