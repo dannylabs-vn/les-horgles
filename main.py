@@ -93,33 +93,42 @@ class Game:
         """Run Chapter 2 with integrated minigames"""
         print("Starting Chapter 2...")
         
-        # # Run IntroChapter2
-        # if self.running:
-        #     self.run_scene(IntroChapter2)
-          
-        # Run the cuoard sequence
-        if sf.running:
+        # Run IntroChapter2 first
+        if self.running:
+            self.run_scene(IntroChapter2)
+            
+        # Run the cupboard sequence
+        if self.running:
+            self.play_music_for_scene("CupboardMinigame")
             tileset_path = os.path.join("assets", "cupboard_tiles.png")
             tilemap_path = os.path.join("assets", "tile_cb.csv")
             cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
             cupboard_game.run()
         
+        # Re-initialize pygame after cupboard game (since it calls pygame.quit())
         if self.running:
-            HB = HeartbeatGame(1200, 800)
-            HB.run()
-
-        if self.running: 
-            screen = pygame.display.set_mode((1200, 800))
-            clock = pygame.time.Clock()
-            game = type('Game', (object,), {'screen': screen, 'clock': clock, 'running': True})()
+            pygame.init()
+            pygame.mixer.init()
+            self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+            pygame.display.set_caption("Les Échos du Passé")
             
-            visual_novel = VisualNovelEndings(game)
-            visual_novel.run()
+            # Run heartbeat game
+            self.play_music_for_scene("HeartbeatMinigame")
+            heartbeat_game = HeartbeatGame(1200, 800)
+            heartbeat_game.screen = self.screen  # Pass the screen reference
+            heartbeat_game.clock = self.clock    # Pass the clock reference
+            heartbeat_game.run()
 
-        # đã chạy được file game cupboard_game_sequence.py
-        # code tiếp để nhận game heartbeat 
-        # và kiểu gọi minigame heartbeat ở đây
-        # sau đó là game visual novel
+        # Run visual novel endings
+        if self.running:
+            # Ensure pygame is still initialized
+            if not pygame.get_init():
+                pygame.init()
+                self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+                pygame.display.set_caption("Les Échos du Passé")
+            
+            visual_novel = VisualNovelEndings(self)
+            visual_novel.run()
 
         # Mark Chapter 2 as completed and return to main menu
         if self.running:
@@ -127,9 +136,6 @@ class Game:
             print("Chapter 2 completed!")
             # Return to main menu
             self.run_scene(MainMenuScene)
-        if self.running:
-            self.chapter2_completed = True
-            print("Chapter 2 completed!")
 
     def run_chapter_3(self):
         """Placeholder for Chapter 3"""
@@ -286,4 +292,4 @@ if __name__ == "__main__":
         import traceback
         traceback.print_exc()
         pygame.quit()
-        sys.exit(1)5
+        sys.exit(1)
