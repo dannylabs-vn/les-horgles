@@ -33,7 +33,7 @@ class IntroChapter2:
         # Insert repeated images where needed for the story flow
 
         self.script = [
-            "Le lendemain matin, Léo est retourné à la maison de Monsieur Huy.",
+            "Après une période d'échange étudiant au Vietnam, Léo est retourné dans son pays d'origine. ",
             "Il était déterminé à découvrir la vérité sur son passé.",
             "En entrant dans le salon, il a remarqué quelque chose d'étrange...",
             "Il y avait plusieurs photos sur les murs, toutes couvertes de poussière.",

@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 
+
 from scenes.main_menu_scene import MainMenuScene
 from scenes.chapter_scene import ChapterScene
 from scenes.intro_scene import IntroScene
@@ -12,6 +13,8 @@ from scenes.outro_scene import OutroScene
 # from scenes.chapter2_complete import Chapter2Complete
 from scenes.Intro_chapter2 import IntroChapter2
 from scenes.cupboard_game_sequence import TilemapRenderer
+from scenes.heartbeat_scene import HeartbeatGame
+from scenes.visual_novel_endings import VisualNovelEndings  # New import
 
 WIDTH, HEIGHT = 1200, 800
 
@@ -40,7 +43,8 @@ class Game:
             "OutroScene": "assets/music/Pixel 9.wav",
             "Chapter2Complete": "assets/music/Pixel 3.wav",
             "CupboardMinigame": "assets/music/Pixel 5.wav",
-            "HeartbeatMinigame": "assets/music/Pixel 6.wav"
+            "HeartbeatMinigame": "assets/music/Pixel 6.wav",
+            "VisualNovelEndings": "assets/music/Pixel 3.wav"  # New music entry
         }
 
     def play_music_for_scene(self, scene_name):
@@ -64,7 +68,7 @@ class Game:
         scene.run()
 
     def run_chapter_1(self):
-        """Run all Chapter 1 scenes"""
+        # """Run all Chapter 1 scenes"""
         print("Starting Chapter 1...")
         chapter_1_scenes = [
             IntroScene,
@@ -83,32 +87,79 @@ class Game:
         if self.running:
             self.chapter1_completed = True
             print("Chapter 1 completed!")
+            # Return to main menu
+            self.run_scene(MainMenuScene)
 
     def run_chapter_2(self):
-        """Run Chapter 2 with integrated minigames"""
+        """Run Chapter 2 with integrated minigames and visual novel endings"""
         print("Starting Chapter 2...")
         
         # Run IntroChapter2
         if self.running:
-            self.run_scene(IntroChapter2)
+            print("Starting IntroChapter2...")
+            try:
+                self.run_scene(IntroChapter2)
+            except Exception as e:
+                print(f"Error in IntroChapter2: {e}")
             
         # Run the cupboard sequence
         if self.running:
-            from scenes.cupboard_game_sequence import TilemapRenderer
-            tileset_path = os.path.join("assets", "cupboard_tiles.png")
-            tilemap_path = os.path.join("assets", "tile_cb.csv")
-            cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
-            cupboard_game.run()
+            print("Starting Cupboard Minigame...")
+            try:
+                self.play_music_for_scene("CupboardMinigame")
+                from scenes.cupboard_game_sequence import TilemapRenderer
+                tileset_path = os.path.join("assets", "cupboard_tiles.png")
+                tilemap_path = os.path.join("assets", "tile_cb.csv")
+                cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
+                cupboard_game.run()
+                print("Cupboard game completed")
+            except Exception as e:
+                print(f"Error in cupboard game: {e}")
         
-        # đã chạy được file game cupboard_game_sequence.py
-        # code tiếp để nhận game heartbeat 
-        # và kiểu gọi minigame heartbeat ở đây
-        # sau đó là game visual novel
+        # Run heartbeat minigame
+        if self.running:
+            print("Starting Heartbeat Minigame...")
+            try:
+                self.play_music_for_scene("HeartbeatMinigame")
+                from scenes.heartbeat_scene import HeartbeatGame
+                
+                HB = HeartbeatGame(1200, 800)
+                HB.screen = self.screen
+                HB.clock = self.clock
+                HB.run()
+                print("Heartbeat game completed")
+                
+                # Re-ensure pygame display is active after minigame
+                if not pygame.get_init() or not pygame.display.get_init():
+                    print("Re-initializing pygame after heartbeat game...")
+                    pygame.init()
+                    pygame.mixer.init()
+                    self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+                    pygame.display.set_caption("Les Échos du Passé")
+                    
+            except Exception as e:
+                print(f"Error in heartbeat game: {e}")
+                import traceback
+                traceback.print_exc()
 
-        # Mark Chapter 2 as completed
+        # Run visual novel endings sequence
+        if self.running:
+            print("Starting Visual Novel Endings...")
+            try:
+                self.play_music_for_scene("VisualNovelEndings")
+                visual_novel = VisualNovelEndings(self)
+                visual_novel.run()
+                print("Visual novel completed")
+            except Exception as e:
+                print(f"Error in visual novel: {e}")
+                import traceback
+                traceback.print_exc()
+
+        # Mark Chapter 2 as completed - DON'T call main menu here
         if self.running:
             self.chapter2_completed = True
             print("Chapter 2 completed!")
+            # Just return, let main game loop handle menu return
 
     def run_chapter_3(self):
         """Placeholder for Chapter 3"""
@@ -254,16 +305,15 @@ class Game:
 import math
 
 if __name__ == "__main__":
-    # try:
-    #     print("Starting Les Échos du Passé...")
-    #     print("=" * 50)
-    #     print("A visual novel about empathy, justice, and solidarity")
-    #     print("=" * 50)
-    #     Game().run()
-    # except Exception as e:
-    #     print(f"Game crashed with error: {e}")
-    #     import traceback
-    #     traceback.print_exc()
-    #     pygame.quit()
-    #     sys.exit(1)
-    Game().run_chapter_2()
+    try:
+        print("Starting Les Échos du Passé...")
+        print("=" * 50)
+        print("A visual novel about empathy, justice, and solidarity")
+        print("=" * 50)
+        Game().run()
+    except Exception as e:
+        print(f"Game crashed with error: {e}")
+        import traceback
+        traceback.print_exc()
+        pygame.quit()
+        sys.exit(1)

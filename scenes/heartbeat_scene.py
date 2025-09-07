@@ -29,15 +29,11 @@ class HeartbeatGame:
         ghost_gap: float | None = 12.0,
         bg_path: str = "assets/cupboard_bg.png"  # hình nền tủ
     ):
-        # Init pygame
-        pygame.init()
-        pygame.font.init()
-
-        pygame.display.set_caption("Heartbeat Minigame")
+        # Don't init pygame here - assume it's already initialized
         self.screen_width = width
         self.screen_height = height
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.clock = pygame.time.Clock()
+        self.screen = None  # Will be set by main game
+        self.clock = None   # Will be set by main game
         self.running = True
 
         # Progress
@@ -283,8 +279,18 @@ class HeartbeatGame:
 
     # ========= MAIN LOOP =========
     def run(self):
+        """Main game loop - integrated version that doesn't quit pygame"""
+        print("Starting HeartbeatGame (integrated mode)...")
+        
+        # Use external screen and clock if available
+        if self.screen is None:
+            self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        if self.clock is None:
+            self.clock = pygame.time.Clock()
+            
         self.update_speed_by_losses()
         self.reset_round_positions_only()
+        
         while self.running:
             dt = self.clock.tick(120) / 1000.0
             self.t += dt
@@ -310,13 +316,18 @@ class HeartbeatGame:
                 self.msg_timer = max(0, self.msg_timer - dt)
             self.draw_scene()
             pygame.display.flip()
-        pygame.quit()
+            
+        print("HeartbeatGame completed, returning control to main game")
+        # DON'T call pygame.quit() here!
 
 
 if __name__ == "__main__":
     try:
+        pygame.init()
         game = HeartbeatGame(1200, 800)
         game.run()
+        pygame.quit()
+        sys.exit()
     except Exception as e:
         print("Unhandled exception:", e)
         pygame.quit()
