@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 
+
 from scenes.main_menu_scene import MainMenuScene
 from scenes.chapter_scene import ChapterScene
 from scenes.intro_scene import IntroScene
@@ -12,6 +13,7 @@ from scenes.outro_scene import OutroScene
 # from scenes.chapter2_complete import Chapter2Complete
 from scenes.Intro_chapter2 import IntroChapter2
 from scenes.cupboard_game_sequence import TilemapRenderer
+from scenes.heartbeat_scene import HeartbeatGame
 
 WIDTH, HEIGHT = 1200, 800
 
@@ -64,7 +66,7 @@ class Game:
         scene.run()
 
     def run_chapter_1(self):
-        """Run all Chapter 1 scenes"""
+        # """Run all Chapter 1 scenes"""
         print("Starting Chapter 1...")
         chapter_1_scenes = [
             IntroScene,
@@ -83,29 +85,40 @@ class Game:
         if self.running:
             self.chapter1_completed = True
             print("Chapter 1 completed!")
+            # Return to main menu
+            self.run_scene(MainMenuScene)
 
     def run_chapter_2(self):
         """Run Chapter 2 with integrated minigames"""
         print("Starting Chapter 2...")
         
         # Run IntroChapter2
-        if self.running:
-            self.run_scene(IntroChapter2)
+        # if self.running:
+        #     self.run_scene(IntroChapter2)
             
         # Run the cupboard sequence
-        if self.running:
-            from scenes.cupboard_game_sequence import TilemapRenderer
-            tileset_path = os.path.join("assets", "cupboard_tiles.png")
-            tilemap_path = os.path.join("assets", "tile_cb.csv")
-            cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
-            cupboard_game.run()
+        # if self.running:
+        #     from scenes.cupboard_game_sequence import TilemapRenderer
+        #     tileset_path = os.path.join("assets", "cupboard_tiles.png")
+        #     tilemap_path = os.path.join("assets", "tile_cb.csv")
+        #     cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
+        #     cupboard_game.run()
         
+        if self.running:
+            HB = HeartbeatGame(1200, 800)
+            HB.run()
+
         # đã chạy được file game cupboard_game_sequence.py
         # code tiếp để nhận game heartbeat 
         # và kiểu gọi minigame heartbeat ở đây
         # sau đó là game visual novel
 
-        # Mark Chapter 2 as completed
+        # Mark Chapter 2 as completed and return to main menu
+        if self.running:
+            self.chapter2_completed = True
+            print("Chapter 2 completed!")
+            # Return to main menu
+            self.run_scene(MainMenuScene)
         if self.running:
             self.chapter2_completed = True
             print("Chapter 2 completed!")
@@ -254,16 +267,15 @@ class Game:
 import math
 
 if __name__ == "__main__":
-    # try:
-    #     print("Starting Les Échos du Passé...")
-    #     print("=" * 50)
-    #     print("A visual novel about empathy, justice, and solidarity")
-    #     print("=" * 50)
-    #     Game().run()
-    # except Exception as e:
-    #     print(f"Game crashed with error: {e}")
-    #     import traceback
-    #     traceback.print_exc()
-    #     pygame.quit()
-    #     sys.exit(1)
-    Game().run_chapter_2()
+    try:
+        print("Starting Les Échos du Passé...")
+        print("=" * 50)
+        print("A visual novel about empathy, justice, and solidarity")
+        print("=" * 50)
+        Game().run()
+    except Exception as e:
+        print(f"Game crashed with error: {e}")
+        import traceback
+        traceback.print_exc()
+        pygame.quit()
+        sys.exit(1)
