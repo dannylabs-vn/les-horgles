@@ -93,16 +93,16 @@ class Game:
         print("Starting Chapter 2...")
         
         # Run IntroChapter2
-        # if self.running:
-        #     self.run_scene(IntroChapter2)
+        if self.running:
+            self.run_scene(IntroChapter2)
             
         # Run the cupboard sequence
-        # if self.running:
-        #     from scenes.cupboard_game_sequence import TilemapRenderer
-        #     tileset_path = os.path.join("assets", "cupboard_tiles.png")
-        #     tilemap_path = os.path.join("assets", "tile_cb.csv")
-        #     cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
-        #     cupboard_game.run()
+        if self.running:
+            from scenes.cupboard_game_sequence import TilemapRenderer
+            tileset_path = os.path.join("assets", "cupboard_tiles.png")
+            tilemap_path = os.path.join("assets", "tile_cb.csv")
+            cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
+            cupboard_game.run()
         
         if self.running:
             HB = HeartbeatGame(1200, 800)
