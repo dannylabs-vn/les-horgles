@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 
 from scenes.main_menu_scene import MainMenuScene
 from scenes.chapter_scene import ChapterScene
@@ -9,7 +10,8 @@ from scenes.quiz_scene import QuizScene
 from scenes.maze_scene import MazeScene
 from scenes.outro_scene import OutroScene
 # from scenes.chapter2_complete import Chapter2Complete
-
+from scenes.Intro_chapter2 import IntroChapter2
+from scenes.cupboard_game_sequence import TilemapRenderer
 
 WIDTH, HEIGHT = 1200, 800
 
@@ -86,10 +88,23 @@ class Game:
         """Run Chapter 2 with integrated minigames"""
         print("Starting Chapter 2...")
         
-        # Run the complete Chapter 2 (3 scenes + cupboard + heartbeat + 3 scenes)
+        # Run IntroChapter2
         if self.running:
-            self.run_scene(Chapter2Complete)
+            self.run_scene(IntroChapter2)
+            
+        # Run the cupboard sequence
+        if self.running:
+            from scenes.cupboard_game_sequence import TilemapRenderer
+            tileset_path = os.path.join("assets", "cupboard_tiles.png")
+            tilemap_path = os.path.join("assets", "tile_cb.csv")
+            cupboard_game = TilemapRenderer(tileset_path, tilemap_path, tile_size=32)
+            cupboard_game.run()
         
+        # đã chạy được file game cupboard_game_sequence.py
+        # code tiếp để nhận game heartbeat 
+        # và kiểu gọi minigame heartbeat ở đây
+        # sau đó là game visual novel
+
         # Mark Chapter 2 as completed
         if self.running:
             self.chapter2_completed = True
@@ -239,15 +254,16 @@ class Game:
 import math
 
 if __name__ == "__main__":
-    try:
-        print("Starting Les Échos du Passé...")
-        print("=" * 50)
-        print("A visual novel about empathy, justice, and solidarity")
-        print("=" * 50)
-        Game().run()
-    except Exception as e:
-        print(f"Game crashed with error: {e}")
-        import traceback
-        traceback.print_exc()
-        pygame.quit()
-        sys.exit(1)
+    # try:
+    #     print("Starting Les Échos du Passé...")
+    #     print("=" * 50)
+    #     print("A visual novel about empathy, justice, and solidarity")
+    #     print("=" * 50)
+    #     Game().run()
+    # except Exception as e:
+    #     print(f"Game crashed with error: {e}")
+    #     import traceback
+    #     traceback.print_exc()
+    #     pygame.quit()
+    #     sys.exit(1)
+    Game().run_chapter_2()

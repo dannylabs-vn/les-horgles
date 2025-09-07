@@ -1,7 +1,8 @@
-import pandas
+
 import pygame
 import sys
-from Dialog import DialogBox
+import os
+from scenes.Dialog import DialogBox
 
 class IntroChapter2:
     def __init__(self, game):

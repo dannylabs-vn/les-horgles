@@ -119,3 +119,12 @@ class ChapterScene:
 
             pygame.display.flip()
             self.clock.tick(60)
+
+if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode((1200, 800))
+    clock = pygame.time.Clock()
+    game = type('Game', (object,), {'screen': screen, 'clock': clock, 'running': True, 'chapter1_completed': True, 'chapter2_completed': False})()
+    chapter_scene = ChapterScene(game)
+    chapter_scene.run()
+    pygame.quit()
