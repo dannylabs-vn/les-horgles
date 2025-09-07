@@ -14,7 +14,10 @@ from scenes.outro_scene import OutroScene
 from scenes.Intro_chapter2 import IntroChapter2
 from scenes.cupboard_game_sequence import TilemapRenderer
 from scenes.heartbeat_scene import HeartbeatGame
+<<<<<<< HEAD
 from scenes.visual_novel_endings import VisualNovelEndings  # New import
+=======
+>>>>>>> cec6aa923cf281ee588112d7aceb72c147e2cb1b
 
 WIDTH, HEIGHT = 1200, 800
 
@@ -116,6 +119,7 @@ class Game:
             except Exception as e:
                 print(f"Error in cupboard game: {e}")
         
+<<<<<<< HEAD
         # Run heartbeat minigame
         if self.running:
             print("Starting Heartbeat Minigame...")
@@ -156,6 +160,23 @@ class Game:
                 traceback.print_exc()
 
         # Mark Chapter 2 as completed - DON'T call main menu here
+=======
+        if self.running:
+            HB = HeartbeatGame(1200, 800)
+            HB.run()
+
+        # đã chạy được file game cupboard_game_sequence.py
+        # code tiếp để nhận game heartbeat 
+        # và kiểu gọi minigame heartbeat ở đây
+        # sau đó là game visual novel
+
+        # Mark Chapter 2 as completed and return to main menu
+        if self.running:
+            self.chapter2_completed = True
+            print("Chapter 2 completed!")
+            # Return to main menu
+            self.run_scene(MainMenuScene)
+>>>>>>> cec6aa923cf281ee588112d7aceb72c147e2cb1b
         if self.running:
             self.chapter2_completed = True
             print("Chapter 2 completed!")

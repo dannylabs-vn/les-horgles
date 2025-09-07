@@ -27,12 +27,67 @@ class IntroChapter2:
             print(i)
             C2[i] = pygame.transform.scale(C2[i], (1200, 800))
 
+        # Tạo mảng ảnh với mỗi ảnh được lặp lại cho số lần script tương ứng
+        self.all_images = []
+        
+        # Script và mapping ảnh tương ứng
+        self.script = []
+        
+        # Part 1 - C2_1
+        self.script.append("Sau một thời gian tham gia chương trình trao đổi học sinh tại Việt Nam, Léo đã trở về quê hương.")
+        self.all_images.append(C2[0])
 
-        self.all_images = C2
+        # Part 2 - C2_2
+        part2_scripts = [
+            "Léo: Mình thật sự rất hạnh phúc khi được trở về nhà, cuối cùng mình cũng sẽ gặp lại Paul.",
+            "Léo: Chào, mình vừa mới về. Anh em à, cậu ổn chứ? Nếu cuối tuần này rảnh thì ra quán cà phê với mình nhé.",
+            "Paul: Mình không được ổn lắm… Mình có chuyện muốn nhờ cậu…",
+            "Léo (tự hỏi): Chuyện gì đã xảy ra với cậu ấy vậy?"
+        ]
+        self.script.extend(part2_scripts)
+        self.all_images.extend([C2[1]] * len(part2_scripts))
 
-        # Insert repeated images where needed for the story flow
+        # Part 3 - C2_3
+        self.script.append("Léo: Chào Paul, đã lâu lắm rồi chúng ta không gặp nhau. Mình cứ hy vọng là cậu vẫn ổn.")
+        self.all_images.append(C2[2])
+
+        # Part 4 - C2_4
+        part4_scripts = [
+            "Léo: Chuyện gì đã xảy ra với cậu thế?",
+            "Paul: Mình bị ngã, không có gì đâu.",
+            "Léo: Thật sao? Những vết bầm này đâu giống như chỉ do ngã."
+        ]
+        self.script.extend(part4_scripts)
+        self.all_images.extend([C2[3]] * len(part4_scripts))
+
+        # Part 5 - C2_5
+        part5_scripts = [
+            "Paul: Mình… thật ra… Cậu còn nhớ chuyện mình nói là muốn kể với cậu không? Sự thật là mình đang bị một số bạn cùng lớp bắt nạt ở trường.",
+            "Léo: Thật tệ quá!",
+            "Paul: Giờ thì mình không biết phải làm sao nữa… Làm ơn, hãy giúp mình.",
+            "Léo: Được rồi, mình sẽ giúp cậu. Chúng ta hãy đến trường của cậu để xem tình hình thế nào."
+        ]
+        self.script.extend(part5_scripts)
+        self.all_images.extend([C2[4]] * len(part5_scripts))
+
+        # Part 6 - C2_6
+        self.script.append("Trong lớp, Paul bị cô lập… thậm chí có cả cục gôm dán trên ghế ngồi.")
+        self.all_images.append(C2[5])
+
+        # Part 7 - C2_7
+        part7_scripts = [
+            "Paul (nghĩ thầm): Mình… đã quen rồi…",
+            "Léo (nghĩ thầm): Sao họ có thể đối xử với cậu ấy như vậy?"
+        ]
+        self.script.extend(part7_scripts)
+        self.all_images.extend([C2[6]] * len(part7_scripts))
+
+        # Part 8 - C2_8
+        self.script.append("Góc nhìn của Paul: Điều gì đã xảy ra và được viết vào nhật ký của cậu ấy")
+        self.all_images.append(C2[7])
 
         self.script = [
+<<<<<<< HEAD
             "Après une période d'échange étudiant au Vietnam, Léo est retourné dans son pays d'origine. ",
             "Il était déterminé à découvrir la vérité sur son passé.",
             "En entrant dans le salon, il a remarqué quelque chose d'étrange...",
@@ -44,6 +99,34 @@ class IntroChapter2:
             "C'était Monsieur Huy, qui le regardait avec un mélange de surprise et de méfiance.",
             "Monsieur Huy : Que fais-tu ici ?",
             "Léo a sorti la photo que Mme My lui avait donnée."
+=======
+            # Part 1
+            "Sau một thời gian tham gia chương trình trao đổi học sinh tại Việt Nam, Léo đã trở về quê hương.",
+            # Part 2
+            "Léo: Mình thật sự rất hạnh phúc khi được trở về nhà, cuối cùng mình cũng sẽ gặp lại Paul.",
+            "Léo: Chào, mình vừa mới về. Anh em à, cậu ổn chứ? Nếu cuối tuần này rảnh thì ra quán cà phê với mình nhé.",
+            "Paul: Mình không được ổn lắm… Mình có chuyện muốn nhờ cậu…",
+            "Léo (tự hỏi): Chuyện gì đã xảy ra với cậu ấy vậy?",
+            # Part 3
+            "Léo: Chào Paul, đã lâu lắm rồi chúng ta không gặp nhau. Mình cứ hy vọng là cậu vẫn ổn.",
+            # Part 4
+            "Léo: Chuyện gì đã xảy ra với cậu thế?",
+            "Paul: Mình bị ngã, không có gì đâu.",
+            "Léo: Thật sao? Những vết bầm này đâu giống như chỉ do ngã.",
+            # Part 5
+            "Paul: Mình… thật ra… Cậu còn nhớ chuyện mình nói là muốn kể với cậu không?",
+            "Paul: Sự thật là mình đang bị một số bạn cùng lớp bắt nạt ở trường.",
+            "Léo: Thật tệ quá!",
+            "Paul: Giờ thì mình không biết phải làm sao nữa… Làm ơn, hãy giúp mình.",
+            "Léo: Được rồi, mình sẽ giúp cậu. Chúng ta hãy đến trường của cậu để xem tình hình thế nào.",
+            # Part 6
+            "Trong lớp, Paul bị cô lập… thậm chí có cả cục gôm dán trên ghế ngồi.",
+            # Part 7
+            "Paul (nghĩ thầm): Mình… đã quen rồi…",
+            "Léo (nghĩ thầm): Sao họ có thể đối xử với cậu ấy như vậy?",
+            # Part 8
+            "Góc nhìn của Paul: Điều gì đã xảy ra và được viết vào nhật ký của cậu ấy"
+>>>>>>> cec6aa923cf281ee588112d7aceb72c147e2cb1b
         ]
 
         self.current_image = self.all_images[0]
