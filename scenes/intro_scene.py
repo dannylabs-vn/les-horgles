@@ -17,56 +17,63 @@ class IntroScene:
         self.fade_in(self.screen, self.current_image)
 
     def load_images(self):
-        P1 = [pygame.image.load(f"assets/P1_{i+1}.png").convert_alpha() for i in range(7)]
-        P2 = [pygame.image.load(f"assets/P2_{i+1}.png").convert_alpha() for i in range(3)]
-        P3 = [pygame.image.load(f"assets/P3_{i+1}.png").convert_alpha() for i in range(6)]
+        # Load only 7 images
+        self.all_images = [
+            pygame.image.load("assets/P1_1.png").convert_alpha(),
+            pygame.image.load("assets/P1_4.png").convert_alpha(),
+            pygame.image.load("assets/P2_1.png").convert_alpha(),
+            pygame.image.load("assets/P2_3.png").convert_alpha(),
+            pygame.image.load("assets/P3_1.png").convert_alpha(),
+            pygame.image.load("assets/P3_3.png").convert_alpha(),
+            pygame.image.load("assets/P3_6.png").convert_alpha()
+        ]
 
-        for lst in [P1, P2, P3]:
-            for i in range(len(lst)):
-                lst[i] = pygame.transform.scale(lst[i], (1200, 800))
+        # Scale all images
+        for i in range(len(self.all_images)):
+            self.all_images[i] = pygame.transform.scale(self.all_images[i], (1200, 800))
 
-        self.all_images = P1 + P2 + P3
-
-        self.all_images.insert(1, self.all_images[0])     # P1_1 again
-        self.all_images.insert(5, P1[3])                  # P1_4
-        self.all_images.insert(6, P1[4])                  # P1_5 first
-        self.all_images.insert(7, P1[4])                  # P1_5 second
-        self.all_images.insert(8, P1[5])                  # P1_6
-        self.all_images.insert(9, P1[6])                  # P1_7
-        self.all_images.insert(10, P2[0])                 # P2_1
-        self.all_images.insert(11, P2[1])                 # P2_2
-        self.all_images.insert(12, P2[2])                 # P2_3
-        self.all_images.insert(13, P3[0])                 # P3_1 first
-        self.all_images.insert(14, P3[0])                 # P3_1 second
-        self.all_images.insert(15, P3[1])
-        self.all_images.insert(16, P3[1])
-        self.all_images.insert(17, P3[2])
-        self.all_images.insert(18, P3[3])
-        self.all_images.insert(19, P3[4])
-        self.all_images.insert(20, P3[5])                 # P3_6 
         self.script = [
+            # Image 1 - School scene
             "C'est Léo, un adolescent étranger étudiant dans un lycée vietnamien passionné de philosophie et sensible aux enjeux sociaux",
-            "Récemment, il a perdu des points de comportement à l’école parce qu’il était trop absorbé par la lecture de livres sur l’histoire et la guerre",
+            "Récemment, il a perdu des points de comportement à l'école parce qu'il était trop absorbé par la lecture de livres sur l'histoire et la guerre",
             "À la fin du cours, Léo parle à Mme Hoa de ses points",
             "Hoa : Je te donne une mission : aide une personne en difficulté dans la ville, pour réfléchir à la justice et à la solidarité",
+
+            # Image 2 - Library scene
             "Ensuite, il est allé à la bibliothèque municipale pour chercher des documents",
             "À la bibliothèque, alors que Léo cherche des documents, il rencontre Mme My.",
-            "Elle lui parle de Monsieur Huy, un ancien soldat que tout le monde appelle “le fou”.",
-            "Puis, elle lui tend une vieille enveloppe.",
-            "Dans l’enveloppe, il y a la photo d’un jeune homme en uniforme militaire. Mme My explique que personne au village n’écoute Monsieur Huy. Elle demande alors à Léo de découvrir la vérité sur son passé.",
-            "C’est ainsi que commence son aventure.",
-            "Dans la rue, Léo voit un homme en train de crier.",
-            "Les passants l’évitent tous. Soudain, il comprend : c’est Monsieur Huy.",
-            "Léo décide alors de le suivre jusqu’à chez lui.",
-            "Quand il est arrivé au bout de la rue, il a vu que Monsieur Huy avait disparu."
-            "Devant lui, il y avait une vieille maison mystérieuse.",
-            "Il est arrivé devant une vieille maison abandonnée.",
-            "Poussé par la curiosité, il est entré dans la maison et a vu Monsieur Huy tenant un cadre photo ",
+            "Elle lui parle de Monsieur Huy, un ancien soldat que tout le monde appelle 'le fou'",
+            "Dans l'enveloppe, il y a la photo d'un jeune homme en uniforme militaire",
+
+            # Image 3 - Street scene
+            "C'est ainsi que commence son aventure",
+            "Dans la rue, Léo voit un homme en train de crier",
+            "Les passants l'évitent tous. Soudain, il comprend : c'est Monsieur Huy",
+            "Léo décide alors de le suivre jusqu'à chez lui",
+
+            # Image 4 - Following scene
+            "Il suit Monsieur Huy discrètement dans les rues",
+            "Les rues deviennent de plus en plus étroites et sombres",
+            "Quand il est arrivé au bout de la rue, il a vu que Monsieur Huy avait disparu",
+            "Devant lui, il y avait une vieille maison mystérieuse",
+
+            # Image 5 - House exterior
+            "Il est arrivé devant une vieille maison abandonnée",
+            "La maison semblait inhabitée depuis longtemps",
+            "Les fenêtres étaient couvertes de poussière",
+            "Poussé par la curiosité, il s'approche de l'entrée",
+
+            # Image 6 - Inside house
+            "À l'intérieur, il trouve Monsieur Huy tenant un cadre photo",
             "Il était en train de murmurer des mots incompréhensibles",
-            "Monsieur Huy : @#$%^&*!@###!@@!... ",
-            "En voyant Léo, Monsieur Huy s’est précipité vers l’intérieur de la maison.",
-            "Trouvant cela étrange, le jeune homme l’a suivi à l’intérieur",
-            "Finalement, il est arrivé jusqu’au salon de Monsieur Huy",
+            "Monsieur Huy : @#$%^&*!@###!@@!...",
+            "En voyant Léo, Monsieur Huy s'est précipité vers l'intérieur de la maison",
+
+            # Image 7 - Final scene
+            "Trouvant cela étrange, le jeune homme l'a suivi à l'intérieur",
+            "Les couloirs de la maison sont remplis de vieux souvenirs",
+            "Des photos jaunies tapissent les murs",
+            "Finalement, il est arrivé jusqu'au salon de Monsieur Huy"
         ]
 
         self.current_image = self.all_images[0]
@@ -97,15 +104,13 @@ class IntroScene:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.dialog.skip_or_next():
                         self.count += 1
-                        if self.count < len(self.script) and self.count < len(self.all_images):
-                            new_image = self.all_images[self.count]
+                        if self.count < len(self.script):
+                            # Change image every 4 messages
+                            new_image = self.all_images[self.count // 4]
                             if new_image != self.current_image:
                                 self.current_image = new_image
-                                self.dialog.set_text(self.script[self.count])
                                 self.fade_in(self.screen, self.current_image)
-                            else:
-                                self.current_image = new_image
-                                self.dialog.set_text(self.script[self.count])
+                            self.dialog.set_text(self.script[self.count])
                         else:
                             self.running = False
 
